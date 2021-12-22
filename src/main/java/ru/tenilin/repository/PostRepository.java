@@ -3,11 +3,13 @@ package ru.tenilin.repository;
 import ru.tenilin.model.Post;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 // Stub
 public class PostRepository {
-    private HashMap<Long, Post> postsList = new HashMap<>();
-    private long idPost = 0;
+    private ConcurrentHashMap<Long, Post> postsList = new ConcurrentHashMap<>();
+    private AtomicLong idPost = new AtomicLong(0);
 
     public PostRepository(){
         postsList.put(1L, new Post(1, "Hello1"));
@@ -22,10 +24,10 @@ public class PostRepository {
         return Optional.ofNullable(postsList.get(id));
     }
 
-    public synchronized Post save(Post post) {
+    public Post save(Post post) {
         if (post.getId() == 0) {
-            Post newPost = new Post(++idPost, post.getContent());
-            postsList.put(idPost, newPost);
+            Post newPost = new Post(idPost.incrementAndGet(), post.getContent());
+            postsList.put(idPost.get(), newPost);
             return newPost;
         } else {
             postsList.put(post.getId(), post);
@@ -33,7 +35,7 @@ public class PostRepository {
         return post;
     }
 
-    public synchronized void removeById(long id) {
+    public void removeById(long id) {
         postsList.remove(id);
     }
 }

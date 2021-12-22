@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 // Stub
 public class PostRepository {
     private ConcurrentHashMap<Long, Post> postsList = new ConcurrentHashMap<>();
-    private AtomicLong idPost = new AtomicLong(0);
+    private AtomicLong idPost = new AtomicLong(2);
 
     public PostRepository(){
         postsList.put(1L, new Post(1, "Hello1"));

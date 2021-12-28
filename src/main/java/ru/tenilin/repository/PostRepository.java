@@ -1,5 +1,6 @@
 package ru.tenilin.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.tenilin.model.Post;
 
 import java.util.*;
@@ -7,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 // Stub
+@Repository
 public class PostRepository {
     private ConcurrentHashMap<Long, Post> postsList = new ConcurrentHashMap<>();
     private AtomicLong idPost = new AtomicLong(2);

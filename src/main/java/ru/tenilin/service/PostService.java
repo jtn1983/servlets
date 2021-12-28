@@ -1,11 +1,13 @@
 package ru.tenilin.service;
 
+import org.springframework.stereotype.Service;
 import ru.tenilin.exception.NotFoundException;
 import ru.tenilin.model.Post;
 import ru.tenilin.repository.PostRepository;
 
 import java.util.List;
 
+@Service
 public class PostService {
   private final PostRepository repository;
 

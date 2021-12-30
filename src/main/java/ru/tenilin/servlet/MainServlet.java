@@ -3,6 +3,7 @@ package ru.tenilin.servlet;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.tenilin.JavaConfig;
 import ru.tenilin.controller.PostController;
+import ru.tenilin.exception.NotFoundException;
 import ru.tenilin.repository.PostRepository;
 import ru.tenilin.service.PostService;
 
@@ -44,14 +45,16 @@ public class MainServlet extends HttpServlet {
       }
       if (method.equals("DELETE") && path.matches("/api/posts/\\d+")) {
         // easy way
-        final var id = Long.parseLong(path.substring(path.lastIndexOf("/") +1));
+        final var id = Long.parseLong(path.substring(path.lastIndexOf("/") + 1));
         controller.removeById(id, resp);
         return;
       }
       resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    } catch (NotFoundException e) {
+      resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     } catch (Exception e) {
       e.printStackTrace();
-      resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
   }
 }
